@@ -25,6 +25,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   Cloud,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { SupabaseSettingsTab } from '../components/supabase/SupabaseSettingsTab';
 
@@ -48,6 +50,8 @@ interface SettingsPageProps {
   onCloudDataPulled: (cloudData: any) => void;
   onToast: (message: string, type: 'success' | 'error' | 'info') => void;
   initialTab?: 'shop' | 'users' | 'backup' | 'supabase';
+  theme?: 'midnight' | 'classic';
+  onToggleTheme?: () => void;
 }
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({
@@ -70,6 +74,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   onCloudDataPulled,
   onToast,
   initialTab = 'shop',
+  theme = 'midnight',
+  onToggleTheme,
 }) => {
   const [activeTab, setActiveTab] = useState<'shop' | 'users' | 'backup' | 'supabase'>(initialTab);
 
@@ -195,7 +201,49 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 
       {/* TAB 1: SHOP & RECEIPT SETTINGS */}
       {activeTab === 'shop' && (
-        <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-6">
+          {/* Theme & Display Mode */}
+          {onToggleTheme && (
+            <div className="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Moon className="w-4 h-4 text-indigo-400" />
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    Interface Theme & Eye Comfort
+                  </h4>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    Theme 4: Midnight Cashier
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  High-contrast dark mode tailored for continuous cashier counter shifts without screen glare.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={onToggleTheme}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shrink-0 ${
+                  theme === 'midnight'
+                    ? 'bg-indigo-950 text-indigo-200 border-indigo-700/80 hover:bg-indigo-900 shadow-xs'
+                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100 shadow-xs'
+                }`}
+              >
+                {theme === 'midnight' ? (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400/40" />
+                    <span>Active: Midnight Cashier</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Active: Classic Light</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
           {saveSuccess && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-xs font-semibold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600" />

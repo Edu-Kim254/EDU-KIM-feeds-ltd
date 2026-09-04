@@ -2,7 +2,7 @@ import React from 'react';
 import { UserProfile } from '../../types';
 import { PWAInstallButton } from '../common/PWAInstallButton';
 import { OfflineIndicator } from '../common/OfflineIndicator';
-import { Menu, ShoppingCart, UserCheck, Shield, Cloud } from 'lucide-react';
+import { Menu, ShoppingCart, UserCheck, Shield, Cloud, Moon, Sun } from 'lucide-react';
 import { isSupabaseConfigured } from '../../lib/supabase';
 
 interface HeaderProps {
@@ -13,6 +13,8 @@ interface HeaderProps {
   onQuickNewSale: () => void;
   onOpenSupabaseSetup?: () => void;
   currentTab: string;
+  theme?: 'midnight' | 'classic';
+  onToggleTheme?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -23,6 +25,8 @@ export const Header: React.FC<HeaderProps> = ({
   onQuickNewSale,
   onOpenSupabaseSetup,
   currentTab,
+  theme = 'midnight',
+  onToggleTheme,
 }) => {
   const isCloudActive = isSupabaseConfigured();
   // Format readable title from current tab
@@ -83,6 +87,31 @@ export const Header: React.FC<HeaderProps> = ({
         )}
         <OfflineIndicator />
         <PWAInstallButton />
+
+        {/* Theme Toggle Button */}
+        {onToggleTheme && (
+          <button
+            onClick={onToggleTheme}
+            title={theme === 'midnight' ? 'Switch to Classic Light Theme' : 'Switch to Midnight Cashier Station (Dark)'}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all border shadow-2xs ${
+              theme === 'midnight'
+                ? 'bg-indigo-950/70 text-indigo-300 border-indigo-800/80 hover:bg-indigo-900/80 hover:text-white'
+                : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
+            }`}
+          >
+            {theme === 'midnight' ? (
+              <>
+                <Moon className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400/30" />
+                <span className="hidden md:inline">Midnight POS</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-500" />
+                <span className="hidden md:inline">Classic</span>
+              </>
+            )}
+          </button>
+        )}
 
         {/* Quick New Sale button */}
         {currentTab !== 'pos' && (

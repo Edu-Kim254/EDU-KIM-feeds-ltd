@@ -319,8 +319,28 @@ export default function App() {
     setCurrentTab('purchases');
   };
 
+  // Theme state: default to 'midnight' (Theme #4: Midnight Cashier Station)
+  const [theme, setTheme] = useState<'midnight' | 'classic'>(() => {
+    const saved = localStorage.getItem('app_theme');
+    return saved === 'classic' ? 'classic' : 'midnight';
+  });
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === 'midnight' ? 'classic' : 'midnight';
+      localStorage.setItem('app_theme', next);
+      return next;
+    });
+  };
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-900 font-sans">
+    <div
+      className={`flex h-screen w-screen overflow-hidden font-sans transition-colors duration-200 ${
+        theme === 'midnight'
+          ? 'theme-midnight dark bg-[#0b0f19] text-slate-100'
+          : 'bg-slate-50 text-slate-900'
+      }`}
+    >
       {/* Desktop Persistent Sidebar */}
       <div className="hidden lg:flex shrink-0 h-full">
         <Sidebar
@@ -337,7 +357,7 @@ export default function App() {
 
       {/* Mobile Sidebar Modal Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden bg-slate-900/40 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex lg:hidden bg-slate-950/70 backdrop-blur-xs">
           <div className="w-72 h-full bg-white shadow-2xl flex flex-col">
             <Sidebar
               currentTab={currentTab}
@@ -369,6 +389,8 @@ export default function App() {
             setCurrentTab('settings');
           }}
           currentTab={currentTab}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
         />
 
         {/* Scrollable View Container */}
@@ -552,6 +574,8 @@ export default function App() {
               }}
               onToast={(msg, type) => showToast(msg, type)}
               initialTab={settingsTab}
+              theme={theme}
+              onToggleTheme={handleToggleTheme}
             />
           )}
         </main>

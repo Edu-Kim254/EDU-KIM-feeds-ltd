@@ -1,1 +1,174 @@
 @import "tailwindcss";
+
+/* 🌙 Midnight Cashier Station Theme (#4) */
+.theme-midnight {
+  color-scheme: dark;
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Background canvas and containers */
+.theme-midnight .bg-slate-50,
+.theme-midnight .bg-gray-50,
+.theme-midnight .bg-neutral-50 {
+  background-color: #0b0f19 !important;
+}
+
+/* Elevated Surfaces (Cards, Panels, Modals, Drawers) */
+.theme-midnight .bg-white {
+  background-color: #121929 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Secondary wells, search bars, and table headers */
+.theme-midnight .bg-slate-100,
+.theme-midnight .bg-gray-100 {
+  background-color: #182238 !important;
+  color: #e2e8f0 !important;
+}
+
+.theme-midnight .hover\:bg-slate-50:hover,
+.theme-midnight .hover\:bg-slate-100:hover,
+.theme-midnight .hover\:bg-gray-50:hover,
+.theme-midnight .hover\:bg-gray-100:hover {
+  background-color: #1c2742 !important;
+}
+
+/* Borders and Dividers */
+.theme-midnight .border-slate-100,
+.theme-midnight .border-slate-200,
+.theme-midnight .border-slate-300,
+.theme-midnight .border-gray-100,
+.theme-midnight .border-gray-200,
+.theme-midnight .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.theme-midnight .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1e2a44 !important;
+}
+
+/* Text Contrast */
+.theme-midnight .text-slate-900,
+.theme-midnight .text-slate-800,
+.theme-midnight .text-gray-900,
+.theme-midnight .text-gray-800 {
+  color: #f8fafc !important;
+}
+
+.theme-midnight .text-slate-700,
+.theme-midnight .text-slate-600,
+.theme-midnight .text-gray-700,
+.theme-midnight .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+.theme-midnight .text-slate-500,
+.theme-midnight .text-slate-400,
+.theme-midnight .text-gray-500,
+.theme-midnight .text-gray-400 {
+  color: #94a3b8 !important;
+}
+
+/* Inputs, Textareas and Selects */
+.theme-midnight input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.theme-midnight textarea,
+.theme-midnight select {
+  background-color: #0d1424 !important;
+  border-color: #243252 !important;
+  color: #f8fafc !important;
+}
+
+.theme-midnight input::placeholder,
+.theme-midnight textarea::placeholder {
+  color: #64748b !important;
+}
+
+.theme-midnight input:focus,
+.theme-midnight textarea:focus,
+.theme-midnight select:focus {
+  border-color: #3b82f6 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Header & Sidebar */
+.theme-midnight header {
+  background-color: #101726 !important;
+  border-bottom-color: #1e2a44 !important;
+}
+
+.theme-midnight aside {
+  background-color: #0f1523 !important;
+  border-right-color: #1e2a44 !important;
+}
+
+/* Tables */
+.theme-midnight thead {
+  background-color: #0d1424 !important;
+}
+
+.theme-midnight tbody tr {
+  border-bottom-color: #1a243a !important;
+}
+
+.theme-midnight tbody tr:hover {
+  background-color: #162035 !important;
+}
+
+/* Status / Alert soft boxes */
+.theme-midnight .bg-blue-50 {
+  background-color: rgba(30, 58, 138, 0.28) !important;
+  color: #93c5fd !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.theme-midnight .bg-emerald-50,
+.theme-midnight .bg-green-50 {
+  background-color: rgba(6, 78, 59, 0.32) !important;
+  color: #6ee7b7 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.theme-midnight .bg-amber-50,
+.theme-midnight .bg-yellow-50 {
+  background-color: rgba(120, 53, 15, 0.32) !important;
+  color: #fcd34d !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.theme-midnight .bg-rose-50,
+.theme-midnight .bg-red-50 {
+  background-color: rgba(136, 19, 55, 0.32) !important;
+  color: #fda4af !important;
+  border-color: rgba(244, 63, 94, 0.3) !important;
+}
+
+.theme-midnight .bg-purple-50 {
+  background-color: rgba(88, 28, 135, 0.32) !important;
+  color: #d8b4fe !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Modals & Overlays */
+.theme-midnight .fixed.inset-0.bg-slate-900\/40,
+.theme-midnight .fixed.inset-0.bg-slate-900\/50,
+.theme-midnight .fixed.inset-0.bg-black\/50 {
+  background-color: rgba(3, 7, 18, 0.75) !important;
+}
+
+/* Custom Eye-Friendly Scrollbars */
+.theme-midnight ::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.theme-midnight ::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
+.theme-midnight ::-webkit-scrollbar-thumb {
+  background: #243252;
+  border-radius: 4px;
+}
+
+.theme-midnight ::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
