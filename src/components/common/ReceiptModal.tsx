@@ -1,7 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { Sale, BusinessSettings } from '../../types';
 import { formatCurrency, formatDateTime } from '../../utils/formatters';
-import { Printer, Download, X, FileText, CheckCircle2, AlertOctagon } from 'lucide-react';
+import {
+  Printer,
+  X,
+  FileText,
+  CheckCircle2,
+  AlertOctagon,
+  Share2,
+  Copy,
+  Check,
+} from 'lucide-react';
 
 interface ReceiptModalProps {
   sale: Sale | null;
@@ -17,6 +26,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
   onClose,
 }) => {
   const [thermalMode, setThermalMode] = useState(true);
+  const [copied, setCopied] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
 
   if (!isOpen || !sale) return null;
@@ -25,6 +35,60 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const generateReceiptText = () => {
+    const lines = [
+      `*${settings.shop_name.toUpperCase()}*`,
+      settings.tagline || 'Animal Feeds & Farm Supplies',
+      settings.location ? `Location: ${settings.location}` : '',
+      settings.phone ? `Tel: ${settings.phone}` : '',
+      '--------------------------------',
+      `Receipt No: ${sale.receipt_number}`,
+      `Date/Time: ${formatDateTime(sale.created_at)}`,
+      `Cashier: ${sale.created_by || 'Admin'}`,
+      `Customer: ${sale.customer_name || 'Walk-in'}`,
+      sale.customer_phone ? `Phone: ${sale.customer_phone}` : '',
+      '--------------------------------',
+      'ITEMS PURCHASED:',
+      ...sale.items.map(
+        (item) =>
+          `• ${item.product_name} (${item.package_name})\n  ${item.quantity} x ${formatCurrency(item.unit_price, settings.currency_symbol)} = ${formatCurrency(item.line_total, settings.currency_symbol)}`
+      ),
+      '--------------------------------',
+      sale.discount > 0 ? `Subtotal: ${formatCurrency(sale.subtotal, settings.currency_symbol)}` : '',
+      sale.discount > 0 ? `Discount: -${formatCurrency(sale.discount, settings.currency_symbol)}` : '',
+      `*TOTAL AMOUNT: ${formatCurrency(sale.total, settings.currency_symbol)}*`,
+      `Paid via: ${sale.payment_method.replace('_', ' ')}`,
+      sale.payment_method === 'ON_CREDIT'
+        ? `Balance Due: ${formatCurrency(Math.max(0, sale.total - (sale.amount_paid ?? 0)), settings.currency_symbol)}`
+        : '',
+      '--------------------------------',
+      settings.receipt_footer || 'Thank you for your business!',
+    ].filter(Boolean);
+    return lines.join('\n');
+  };
+
+  const handleWhatsAppShare = () => {
+    const text = encodeURIComponent(generateReceiptText());
+    let phone = (sale.customer_phone || '').replace(/\D/g, '');
+    if (phone.startsWith('0')) {
+      phone = '254' + phone.substring(1);
+    } else if (phone.startsWith('7') || phone.startsWith('1')) {
+      phone = '254' + phone;
+    }
+    const url = phone ? `https://wa.me/${phone}?text=${text}` : `https://wa.me/?text=${text}`;
+    window.open(url, '_blank');
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(generateReceiptText());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+    }
   };
 
   return (
@@ -53,7 +117,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
         </div>
 
         {/* Action Buttons Bar */}
-        <div className="flex items-center justify-between px-6 py-3 bg-slate-50 border-b border-slate-200 print:hidden">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-6 py-3 bg-slate-50 border-b border-slate-200 print:hidden">
           <div className="flex items-center gap-2">
             {isVoided ? (
               <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-2 py-0.5 rounded">
@@ -61,16 +125,44 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
               </span>
             ) : (
               <span className="flex items-center gap-1 text-xs font-semibold text-slate-700">
-                <CheckCircle2 className="w-4 h-4 text-blue-600" /> Official Retail Receipt
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Official Receipt
               </span>
             )}
           </div>
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
-          >
-            <Printer className="w-4 h-4" /> Print Receipt
-          </button>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleCopy}
+              title="Copy receipt text to clipboard (for SMS)"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold rounded-lg shadow-2xs transition-colors"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-500" /> Copy Text
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={handleWhatsAppShare}
+              title="Send formatted receipt via WhatsApp"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-2xs transition-colors"
+            >
+              <Share2 className="w-3.5 h-3.5" /> WhatsApp
+            </button>
+
+            <button
+              onClick={handlePrint}
+              title="Print on thermal or office printer (or Save as PDF)"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
+            >
+              <Printer className="w-4 h-4" /> Print / PDF
+            </button>
+          </div>
         </div>
 
         {/* Printable Receipt Paper Container */}
