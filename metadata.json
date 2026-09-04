@@ -1,0 +1,6 @@
+{
+  "name": "Animal Feeds Shop Management System",
+  "description": "Production-ready retail shop management system for animal feeds and farm inputs in Kenya, featuring inventory tracking, POS, packaging conversions, reports, and offline support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

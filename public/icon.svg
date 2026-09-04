@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="feedGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="grainGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#feedGreen)"/>
+  <!-- Feed Sack Silhouette -->
+  <path d="M160 140 C180 120, 332 120, 352 140 C340 180, 360 380, 340 410 C310 425, 202 425, 172 410 C152 380, 172 180, 160 140 Z" fill="#f8fafc" opacity="0.95"/>
+  <!-- Sack stitching / tie -->
+  <path d="M190 155 Q256 168 322 155" stroke="#15803d" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Wheat / Grain Ear in Center of sack -->
+  <g transform="translate(256, 280)">
+    <path d="M0 60 L0 -70" stroke="#ca8a04" stroke-width="6" stroke-linecap="round"/>
+    <!-- Grains -->
+    <ellipse cx="-18" cy="-50" rx="12" ry="20" transform="rotate(-30, -18, -50)" fill="url(#grainGold)"/>
+    <ellipse cx="18" cy="-50" rx="12" ry="20" transform="rotate(30, 18, -50)" fill="url(#grainGold)"/>
+    <ellipse cx="-20" cy="-15" rx="14" ry="22" transform="rotate(-30, -20, -15)" fill="url(#grainGold)"/>
+    <ellipse cx="20" cy="-15" rx="14" ry="22" transform="rotate(30, 20, -15)" fill="url(#grainGold)"/>
+    <ellipse cx="-18" cy="20" rx="13" ry="20" transform="rotate(-30, -18, 20)" fill="url(#grainGold)"/>
+    <ellipse cx="18" cy="20" rx="13" ry="20" transform="rotate(30, 18, 20)" fill="url(#grainGold)"/>
+    <ellipse cx="0" cy="-75" rx="10" ry="16" fill="url(#grainGold)"/>
+  </g>
+  <!-- KG badge -->
+  <rect x="200" y="340" width="112" height="36" rx="8" fill="#15803d"/>
+  <text x="256" y="365" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">50 KG</text>
+</svg>
